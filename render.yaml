@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: mi-django
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn nombreProyecto.wsgi"
+    plan: free
