@@ -7,30 +7,37 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 SAVE_PATH = "downloads"  # Carpeta para guardar archivos
-FFMPEG_PATH = "ffmpeg"
-COOKIES_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cookies.txt")
-#FFMPEG_PATH = r"C:\Users\user\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.0-full_build\bin"
+#FFMPEG_PATH = "ffmpeg"
+#COOKIES_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cookies.txt")
+FFMPEG_PATH = r"C:\Users\user\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.0-full_build\bin"
 os.makedirs(SAVE_PATH, exist_ok=True)
 
 
 def clean_url(url):
     return url.split("&")[0]
+INVIDIOUS = "https://inv.nadeko.net"
 
-# Crear cookies.txt a partir de la variable de Render
-if not os.path.exists(COOKIES_PATH):
-    with open(COOKIES_PATH, "w", encoding="utf-8") as f:
-        f.write(os.environ.get("YOUTUBE_COOKIES", ""))
+
+
+
 def descargar_mp3(link):
     ydl_opts_mp3 = {
         'format': 'bestaudio/best',
-        "cookiefile": COOKIES_PATH,
+        #"cookiefile": COOKIES_PATH,
         'outtmpl': f'{SAVE_PATH}/%(title)s.%(ext)s',
         'ffmpeg_location': FFMPEG_PATH,
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
             'preferredquality': '192',
-        }],
+        }],'extractor_args': {
+            'youtube': {
+                'player_client': ['android']
+            }
+        },
+        'http_headers': {
+            'User-Agent': 'Mozilla/5.0 (Linux; Android 10)'
+        }
     }
     with yt_dlp.YoutubeDL(ydl_opts_mp3) as ydl:
         ydl.download([link])
@@ -48,10 +55,19 @@ def descargar_video(request):
         # Configuración de descarga MP4
         ydl_opts = {
             'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
-            "cookiefile": COOKIES_PATH,  
+           # "cookiefile": COOKIES_PATH,  
             'outtmpl': f'{SAVE_PATH}/%(title)s.%(ext)s',
             'ffmpeg_location': FFMPEG_PATH,
             'merge_output_format': 'mp4',
+               'extractor_args': {
+                'youtube': {
+                    'player_client': ['android']
+                }
+            },
+
+            'http_headers': {
+                'User-Agent': 'Mozilla/5.0 (Linux; Android 10)'
+            }
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
