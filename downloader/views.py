@@ -26,6 +26,7 @@ def descargar_mp3(link):
         #"cookiefile": COOKIES_PATH,
         'outtmpl': f'{SAVE_PATH}/%(title)s.%(ext)s',
         'ffmpeg_location': FFMPEG_PATH,
+        'keepvideo': True, 
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
@@ -55,11 +56,12 @@ def descargar_video(request):
         # Configuración de descarga MP4
         ydl_opts = {
             'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
-           # "cookiefile": COOKIES_PATH,  
             'outtmpl': f'{SAVE_PATH}/%(title)s.%(ext)s',
-            'ffmpeg_location': FFMPEG_PATH,
+            
             'merge_output_format': 'mp4',
-               'extractor_args': {
+
+            # *** Aquí está la clave que evita el error ***
+            'extractor_args': {
                 'youtube': {
                     'player_client': ['android']
                 }
