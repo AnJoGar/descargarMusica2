@@ -68,10 +68,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'descargarV.urls'
 CSRF_TRUSTED_ORIGINS = [
-    "https://descargarmusica-n932.onrender.com"
+    "https://descargarsxsxsx.onrender.com"
 ]
 CORS_ALLOWED_ORIGINS = [
-    "https://descargarmusica-n932.onrender.com"
+    "https://descargarsxsxsx.onrender.com"
 ]
 TEMPLATES = [
     {
