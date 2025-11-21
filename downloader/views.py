@@ -33,7 +33,7 @@ def descargar_mp3(link):
             'preferredquality': '192',
         }],'extractor_args': {
             'youtube': {
-                'player_client': ['android']
+                'player_client': ['web_embedded', 'android', 'ios']
             }
         },
         'http_headers': {
@@ -63,7 +63,7 @@ def descargar_video(request):
             # *** Aquí está la clave que evita el error ***
             'extractor_args': {
                 'youtube': {
-                    'player_client': ['android']
+                    'player_client': ['web_embedded', 'android', 'ios']
                 }
             },
 
